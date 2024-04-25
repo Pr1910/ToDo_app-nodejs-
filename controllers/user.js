@@ -3,18 +3,18 @@ import bcrypt from "bcrypt";
 import { sendCookie } from "../utils/features.js";
 import ErrorHandler from "../middlewares/error.js";
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
   try {
     const { email, password } = req.body;
 
     const user = await User.findOne({ email }).select("+password");
 
-    if (!user) return next(new ErrorHandler("Invalid email or password", 404));
+    if (!user) return next(new ErrorHandler("Invalid email or password", 400));
 
     const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch)
-      return next(new ErrorHandler("Invalid email or password", 404));
+      return next(new ErrorHandler("Invalid email or password", 400));
 
     sendCookie(user, res, `Welcome back ${user.name}`, 200);
   } catch (error) {
