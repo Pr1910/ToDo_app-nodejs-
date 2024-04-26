@@ -12,7 +12,7 @@ export const newTask = async (req, res, next) => {
 
     res.status(201).json({
       success: true,
-      messgae: "Task added successfully",
+      message: "Task added successfully",
     });
   } catch (error) {
     next(error);
@@ -29,7 +29,7 @@ export const getMyTask = async (req, res, next) => {
       tasks,
     });
   } catch (error) {
-    next(erro);
+    next(error);
   }
 };
 
